@@ -11,8 +11,7 @@ class GccArmNoneEabiInstallerConan(ConanFile):
     # topics can get used for searches, GitHub topics, Bintray tags etc. Add here keywords about the library
     topics = ("conan", "gcc-arm-none-eabi_installer")
     url = "https://github.com/bincrafters/conan-gcc-arm-none-eabi_installer"
-    homepage =
-    "https://github.com/matt1795/conan-gcc-arm-none-eabi_installer"
+    homepage = "https://github.com/matt1795/conan-gcc-arm-none-eabi_installer"
     author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"  # Indicates license type of the packaged library; please use SPDX Identifiers https://spdx.org/licenses/
     exports = ["LICENSE.md"]      # Packages the license for the conanfile.py
@@ -46,13 +45,12 @@ class GccArmNoneEabiInstallerConan(ConanFile):
     }
 
     def source(self):
-        source_url =
-        "https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-{}-{}.{}"
-        .format(self.version, self.os_lookup[self.settings.os_build],
-                self.extension_lookup[self.settings.os_build])
+        source_url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-{}-{}.{}" \
+            .format(self.version, self.os_lookup[str(self.settings.os_build)], \
+                self.extension_lookup[str(self.settings.os_build)])
 
-        tools.get(source_url, "md5={}".format(md5.sha_lookup[self.settings.os_build])
-        extracted_dir = self.name + "-" + self.version
+        tools.get(source_url, self.md5_lookup[str(self.settings.os_build)])
+        extracted_dir = "gcc-arm-none-eabi-" + self.version
 
         # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
