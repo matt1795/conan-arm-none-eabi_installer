@@ -4,14 +4,15 @@ from conans import ConanFile, CMake, tools
 import os
 
 
-class LibnameConan(ConanFile):
-    name = "libname"
-    version = "0.0.0"
-    description = "Keep it short"
+class GccArmNoneEabiInstallerConan(ConanFile):
+    name = "gcc-arm-none-eabi_installer"
+    version = "8-2018-q4-major"
+    description = "GNU ARM Embedded Toolchain"
     # topics can get used for searches, GitHub topics, Bintray tags etc. Add here keywords about the library
-    topics = ("conan", "libname", "logging")
-    url = "https://github.com/bincrafters/conan-libname"
-    homepage = "https://github.com/original_author/original_lib"
+    topics = ("conan", "gcc-arm-none-eabi_installer")
+    url = "https://github.com/bincrafters/conan-gcc-arm-none-eabi_installer"
+    homepage =
+    "https://github.com/matt1795/conan-gcc-arm-none-eabi_installer"
     author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"  # Indicates license type of the packaged library; please use SPDX Identifiers https://spdx.org/licenses/
     exports = ["LICENSE.md"]      # Packages the license for the conanfile.py
@@ -20,15 +21,37 @@ class LibnameConan(ConanFile):
     generators = "cmake"
 
     # Options may need to change depending on the packaged library.
-    settings = "os_build", "arch_build", "compiler"
+    settings = "os_build"
 
     # Custom attributes for Bincrafters recipe conventions
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
+    extension_lookup = {
+        "Linux": "tar.bz2",
+        "Macos": "tar.bz2",
+        "Windows": "zip"
+    }
+
+    os_lookup = {
+        "Linux": "linux",
+        "Macos": "mac",
+        "Windows": "win32"
+    }
+
+    md5_lookup = {
+        "Linux": "f55f90d483ddb3bcf4dae5882c2094cd",
+        "Macos": "4c0d86df0244df22bc783f83df886db9",
+        "Windows": "9b1cfb7539af11b0badfaa960679ea6f"
+    }
+
     def source(self):
-        source_url = "https://github.com/libauthor/libname"
-        tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version), sha256="Please-provide-a-checksum")
+        source_url =
+        "https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-{}-{}.{}"
+        .format(self.version, self.os_lookup[self.settings.os_build],
+                self.extension_lookup[self.settings.os_build])
+
+        tools.get(source_url, "md5={}".format(md5.sha_lookup[self.settings.os_build])
         extracted_dir = self.name + "-" + self.version
 
         # Rename to "source_subfolder" is a convention to simplify later steps
