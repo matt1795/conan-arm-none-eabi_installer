@@ -3,7 +3,6 @@
 from conans import ConanFile, CMake, tools
 import os
 
-
 class GccArmNoneEabiInstallerConan(ConanFile):
     name = "gcc-arm-none-eabi_installer"
     version = "8-2018-q4-major"
@@ -17,7 +16,9 @@ class GccArmNoneEabiInstallerConan(ConanFile):
     exports = ["LICENSE.md"]      # Packages the license for the conanfile.py
 
     # Options may need to change depending on the packaged library.
-    settings = "os_build"
+    settings = {
+        "os_build": ["Windows", "Linux", "Macos"]
+    }
 
     # Custom attributes for Bincrafters recipe conventions
     _source_subfolder = "source_subfolder"
@@ -53,25 +54,9 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
-    def _configure_cmake(self):
-        cmake = CMake(self)
-        cmake.definitions["BUILD_TESTS"] = False  # example
-        cmake.configure(build_folder=self._build_subfolder)
-        return cmake
-
-    def build(self):
-        pass
-        #cmake = self._configure_cmake()
-        #cmake.build()
 
     def package(self):
         self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
-        #cmake = self._configure_cmake()
-        #cmake.install()
-        # If the CMakeLists.txt has a proper install method, the steps below may be redundant
-        # If so, you can just remove the lines below
-        #self.copy(pattern="tool_name", dst="bin", keep_path=False)
-        #self.copy(pattern="tool_name.exe", dst="bin", keep_path=False)
 
     def package_id(self):
         del self.info.settings.compiler
@@ -85,6 +70,3 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         self.env_info.CC = prefix.format("gcc")
         self.env_info.CXX = prefix.format("g++")
         self.env_info.AR = prefix.format("ar")
-
-        print(env_info)
-

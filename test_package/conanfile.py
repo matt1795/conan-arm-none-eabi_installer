@@ -5,8 +5,11 @@ import os
 
 
 class TestPackageConan(ConanFile):
+    name = "test_package"
+    version = "0.0.1"
+
+    def build(self):
+        pass
 
     def test(self):
         pass
-        #if not tools.cross_building(self.settings):
-           # self.run("some_tool --version")
