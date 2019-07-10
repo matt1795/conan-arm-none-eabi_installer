@@ -14,6 +14,7 @@ class GccArmNoneEabiInstallerConan(ConanFile):
     author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"  # Indicates license type of the packaged library; please use SPDX Identifiers https://spdx.org/licenses/
     exports = ["LICENSE.md"]      # Packages the license for the conanfile.py
+    exports_sources = "toolchain.cmake"
 
     # Options may need to change depending on the packaged library.
     settings = {
@@ -54,9 +55,9 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
-
     def package(self):
-        self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
+        self.copy(pattern="*", dst=".", src=self._source_subfolder)
+        self.copy(pattern="toolchain.cmake", dst=".")
 
     def package_id(self):
         del self.info.settings.compiler
@@ -70,3 +71,5 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         self.env_info.CC = prefix.format("gcc")
         self.env_info.CXX = prefix.format("g++")
         self.env_info.AR = prefix.format("ar")
+        self.env_info.CONAN_CMAKE_TOOLCHAIN_FILE = os.path.join(self.package_folder, "toolchain.cmake")
+        self.cpp_info.exelinkflags.append("--specs=nosys.specs")
