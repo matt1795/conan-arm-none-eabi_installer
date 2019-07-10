@@ -49,11 +49,13 @@ class GccArmNoneEabiInstallerConan(ConanFile):
                 self.extension_lookup[str(self.settings.os_build)])
 
         print("Downloading: {}".format(source_url))
-        tools.get(source_url, sha256=self.sha256_lookup[str(self.settings.os_build)])
-        extracted_dir = "gcc-arm-none-eabi-" + self.version
 
-        # Rename to "source_subfolder" is a convention to simplify later steps
-        os.rename(extracted_dir, self._source_subfolder)
+        destination = "." if self.settings.os_build != "Windows" else self._source_subfolder
+        tools.get(source_url, destination=destination, sha256=self.sha256_lookup[str(self.settings.os_build)])
+
+        if self.settings.os_build != "Windows":
+            self.run("ls")
+            os.rename("gcc-arm-none-eabi-" + self.version, self._source_subfolder)
 
     def package(self):
         self.copy(pattern="*", dst=".", src=self._source_subfolder)
@@ -71,5 +73,6 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         self.env_info.CC = prefix.format("gcc")
         self.env_info.CXX = prefix.format("g++")
         self.env_info.AR = prefix.format("ar")
+        self.env_info.LD = prefix.format("ld")
         self.env_info.CONAN_CMAKE_TOOLCHAIN_FILE = os.path.join(self.package_folder, "toolchain.cmake")
         self.cpp_info.exelinkflags.append("--specs=nosys.specs")

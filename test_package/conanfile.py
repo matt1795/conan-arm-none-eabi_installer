@@ -9,6 +9,7 @@ class TestPackageConan(ConanFile):
     version = "0.0.1"
     exports_sources = "*"
     generators = "virtualenv", "cmake"
+    build_requires = "gcc-arm-none-eabi_installer/8-2018-q4-major@matt1795/testing"
 
     def build(self):
         cmake = CMake(self)
