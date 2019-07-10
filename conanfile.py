@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, tools
 import os
 
 class GccArmNoneEabiInstallerConan(ConanFile):
     name = "gcc-arm-none-eabi_installer"
     version = "8-2018-q4-major"
     description = "GNU ARM Embedded Toolchain"
-    # topics can get used for searches, GitHub topics, Bintray tags etc. Add here keywords about the library
-    topics = ("conan", "gcc-arm-none-eabi_installer")
+    topics = ("conan", "embedded", "gcc", "arm")
     url = "https://github.com/bincrafters/conan-gcc-arm-none-eabi_installer"
     homepage = "https://github.com/matt1795/conan-gcc-arm-none-eabi_installer"
-    author = "Bincrafters <bincrafters@gmail.com>"
-    license = "MIT"  # Indicates license type of the packaged library; please use SPDX Identifiers https://spdx.org/licenses/
-    exports = ["LICENSE.md"]      # Packages the license for the conanfile.py
+    author = "Matthew Knight <mgk@gmail.com>"
+    license = "GPL-3.0-only"  
+    exports = ["LICENSE"]      # Packages the license for the conanfile.py
     exports_sources = "toolchain.cmake"
 
     # Options may need to change depending on the packaged library.
