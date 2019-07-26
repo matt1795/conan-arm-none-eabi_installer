@@ -72,6 +72,7 @@ class GccArmNoneEabiInstallerConan(ConanFile):
         self.env_info.CC = prefix.format("gcc")
         self.env_info.CXX = prefix.format("g++")
         self.env_info.AR = prefix.format("ar")
+        self.env_info.AS = prefix.format("as")
         self.env_info.LD = prefix.format("ld")
         self.env_info.CONAN_CMAKE_TOOLCHAIN_FILE = os.path.join(self.package_folder, "toolchain.cmake")
         self.cpp_info.exelinkflags.append("--specs=nosys.specs")
